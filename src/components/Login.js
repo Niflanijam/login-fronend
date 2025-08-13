@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  // this is for handling a success full route for login
 
   const handleSubmit = async (e) => {
     e.preventDefault();
