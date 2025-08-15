@@ -57,8 +57,14 @@ function Register() {
       return;
     }
     try {
-      await axios.post('http://localhost:5000/api/auth/register', form);
+     await axios.post('http://localhost:5000/api/auth/register', form);
+        //const res = await axios.post('http://localhost:5000/api/auth/register', form); 
       alert('Registered successfully!');
+     //  localStorage.setItem("username", res.data.username || form.username);
+      localStorage.setItem("username", form.username);
+
+  // Dispatch an event so Header can update immediately
+  window.dispatchEvent(new Event("usernameChange"));
       navigate('/login'); // maybe redirect to login after successful register
     } catch (err) {
       alert(err.response?.data?.message || 'Registration failed');

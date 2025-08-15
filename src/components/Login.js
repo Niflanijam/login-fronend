@@ -14,14 +14,24 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
   const navigate = useNavigate();
-  // this is for handling a success full route for login
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Login request
       const res = await axios.post('http://localhost:5000/api/auth/login', form);
+
+      // Save token
       localStorage.setItem('token', res.data.token);
-      alert('Login successful!');
+
+      // Save username from backend
+      localStorage.setItem('username', res.data.user.username);
+
+      // Notify Header to update
+      window.dispatchEvent(new Event('usernameChange'));
+
+      // Navigate to home
+      navigate('/home');
     } catch (err) {
       alert(err.response?.data?.message || 'Login failed');
     }
@@ -49,58 +59,54 @@ function Login() {
           py: 6,
           borderRadius: '0px',
         }}
-  >
-
-    <Tabs
-      value={0} // '0' is Sign In
-      textColor="primary"
-      indicatorColor="primary"
-      onChange={(event, newValue) => {
-        if (newValue === 0) {
-          navigate('/login'); // Sign In route
-        } else if (newValue === 1) {
-          navigate('/'); // Register route
-        }
-      }}
-    >
-      <Tab label="Sign In" />
-      <Tab label="Register" />
-    </Tabs>
-
-    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
-      <Typography variant="h5" gutterBottom>
-        Sign In
-      </Typography>
-
-      <TextField
-        label="Email"
-        placeholder="Enter Your Email"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
-
-      <TextField
-        label="Password"
-        placeholder="Enter Password"
-        type="password"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-      />
-
-      <Button
-        type="submit"
-        variant="contained"
-        fullWidth
-        sx={{ mt: 3, py: 1.5, backgroundColor: '#1ca3ec' }}
       >
-        Login
-      </Button>
-    </Box>
-  </Box>
+        <Tabs
+          value={0} // Sign In tab active
+          textColor="primary"
+          indicatorColor="primary"
+          onChange={(event, newValue) => {
+            if (newValue === 0) navigate('/login');
+            else if (newValue === 1) navigate('/');
+          }}
+        >
+          <Tab label="Sign In" />
+          <Tab label="Register" />
+        </Tabs>
+
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
+          <Typography variant="h5" gutterBottom>
+            Sign In
+          </Typography>
+
+          <TextField
+            label="Email"
+            placeholder="Enter Your Email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
+
+          <TextField
+            label="Password"
+            placeholder="Enter Password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+          />
+
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{ mt: 3, py: 1.5, backgroundColor: '#1ca3ec' }}
+          >
+            Login
+          </Button>
+        </Box>
+      </Box>
 
       {/* Right Side - Welcome */}
       <Box
