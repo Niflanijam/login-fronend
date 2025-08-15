@@ -1,76 +1,4 @@
-/*import React, { useState, useEffect } from "react";
-import { AppBar, Toolbar, Typography, IconButton, Avatar, Menu, MenuItem, Divider, Box } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
-export default function Header() {
-  const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [userName, setUserName] = useState("John Doe");
-
-  // Function to update username from localStorage
-  const updateUserName = () => {
-    const storedName = localStorage.getItem("username");
-    console.log("Stored username:", storedName); // for debugging
-    setUserName(storedName || "John Doe");
-  };
-
-  // On mount, read username and listen for changes
-  useEffect(() => {
-    updateUserName();
-    window.addEventListener("usernameChange", updateUserName);
-
-    return () => {
-      window.removeEventListener("usernameChange", updateUserName);
-    };
-  }, []);
-
-  const handleMenuOpen = (e) => setAnchorEl(e.currentTarget);
-  const handleMenuClose = () => setAnchorEl(null);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-
-    // Notify components that username changed
-    window.dispatchEvent(new Event("usernameChange"));
-
-    navigate("/login");
-  };
-
-  const handleAddAccount = () => navigate("/");
-
-  return (
-    <AppBar position="static" sx={{ background: "#fff", color: "#333" }}>
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        
-        <Box sx={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={() => navigate("/home")}>
-          <img src="./logo12.png" alt="HealthyD@.ai Logo" style={{ height: 40, marginRight: 10 }} />
-          <Typography variant="h6" sx={{ fontWeight: "bold" }}>HealthyD@.ai</Typography>
-        </Box>
-
-        
-        <IconButton onClick={handleMenuOpen}>
-          <Avatar alt={userName} src="/profile.jpg" />
-        </IconButton>
-
-        
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          transformOrigin={{ vertical: "top", horizontal: "right" }}
-        >
-          <MenuItem disabled>{userName}</MenuItem>
-          <Divider />
-          <MenuItem onClick={handleAddAccount}>Add another account</MenuItem>
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        </Menu>
-      </Toolbar>
-    </AppBar>
-  );
-}
-*/
 import React, { useState, useEffect } from "react";
 import {
   AppBar,
@@ -126,7 +54,7 @@ export default function Header() {
   const handleSettings = () => navigate("/settings");
   const handleHelp = () => navigate("/help");
   const handleDisplay = () => navigate("/display");
-  const handleAddAccount = () => navigate("/add-account");
+  const handleAddAccount = () => navigate("/");
 
   return (
     <AppBar position="static" sx={{ background: "#fff", color: "#333", minHeight: 80, boxShadow: "0 2px 10px rgba(0,0,0,0.1)" }}>
