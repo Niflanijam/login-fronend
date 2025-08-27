@@ -1,74 +1,195 @@
 import React, { useState } from "react";
-import {
-  Box, TextField, Select, MenuItem, FormControl, InputLabel, Button, Typography
-} from "@mui/material";
+import { Box, TextField, Button, MenuItem, Typography } from "@mui/material";
+import DietResult from "./DietResult";
 import axios from "axios";
 
-export default function DietForm({ onResult }) {
+export default function DietForm() {
   const [form, setForm] = useState({
-    weight: "", height: "", age: "", gender: "male", activityLevel: "moderate"
+    weight: "",
+    height: "",
+    age: "",
+    gender: "",
+    activityLevel: "sedentary",
   });
 
-  const handleChange = (e) =>
+  const [result, setResult] = useState(null);
+
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post("http://localhost:5000/diet-plan", form);
-      onResult(res.data);
+      setResult(res.data);
     } catch (err) {
+      console.error(err);
       alert("Error generating diet plan");
-      console.error(err.response?.data || err.message);
     }
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{
-      display: "grid",
-      gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-      gap: 2, p: 4, borderRadius: 3,
-      boxShadow: "0px 4px 20px rgba(0,0,0,0.1)",
-      background: "linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%)"
-    }}>
-      <Typography variant="h5" sx={{
-        gridColumn: "1 / -1", textAlign: "center", fontWeight: "bold",
-        color: "#880e4f", mb: 2
-      }}>
-        🥗 Personalized Diet Plan
+    /*
+    <Box sx={{ width: "80%", mx: "auto", mt: 5 }}>
+      <Typography
+        variant="h4"
+        sx={{ fontWeight: "bold", mb: 4, textAlign: "center", color: "#ad1457" }}
+      >
+        🥗 Personalized Diet Planner
       </Typography>
 
-      <TextField name="weight" label="Weight (kg)" value={form.weight} onChange={handleChange} fullWidth sx={{ background: "#fff", borderRadius: 2 }} />
-      <TextField name="height" label="Height (cm)" value={form.height} onChange={handleChange} fullWidth sx={{ background: "#fff", borderRadius: 2 }} />
-      <TextField name="age" label="Age" value={form.age} onChange={handleChange} fullWidth sx={{ background: "#fff", borderRadius: 2 }} />
-
-      <FormControl fullWidth sx={{ background: "#fff", borderRadius: 2 }}>
-        <InputLabel>Gender</InputLabel>
-        <Select name="gender" value={form.gender} onChange={handleChange}>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          fullWidth
+          label="Weight (kg)"
+          name="weight"
+          value={form.weight}
+          onChange={handleChange}
+          type="number"
+          sx={{ mb: 3 }}
+          required
+        />
+        <TextField
+          fullWidth
+          label="Height (cm)"
+          name="height"
+          value={form.height}
+          onChange={handleChange}
+          type="number"
+          sx={{ mb: 3 }}
+          required
+        />
+        <TextField
+          fullWidth
+          label="Age"
+          name="age"
+          value={form.age}
+          onChange={handleChange}
+          type="number"
+          sx={{ mb: 3 }}
+          required
+        />
+        <TextField
+          select
+          fullWidth
+          label="Gender"
+          name="gender"
+          value={form.gender}
+          onChange={handleChange}
+          sx={{ mb: 3 }}
+          required
+        >
           <MenuItem value="male">Male</MenuItem>
           <MenuItem value="female">Female</MenuItem>
-        </Select>
-      </FormControl>
-
-      <FormControl fullWidth sx={{ background: "#fff", borderRadius: 2 }}>
-        <InputLabel>Activity Level</InputLabel>
-        <Select name="activityLevel" value={form.activityLevel} onChange={handleChange}>
+        </TextField>
+        <TextField
+          select
+          fullWidth
+          label="Activity Level"
+          name="activityLevel"
+          value={form.activityLevel}
+          onChange={handleChange}
+          sx={{ mb: 4 }}
+        >
           <MenuItem value="sedentary">Sedentary</MenuItem>
           <MenuItem value="light">Light</MenuItem>
           <MenuItem value="moderate">Moderate</MenuItem>
           <MenuItem value="active">Active</MenuItem>
-        </Select>
-      </FormControl>
-
-      <Box sx={{ gridColumn: "1/-1", textAlign: "center", mt: 2 }}>
-        <Button type="submit" variant="contained" sx={{
-          background: "linear-gradient(45deg, #ad1457, #d81b60)",
-          color: "#fff", px: 4, py: 1.2, fontWeight: "bold", borderRadius: 3,
-          "&:hover": { background: "linear-gradient(45deg, #880e4f, #c2185b)" }
-        }}>
-          Generate Plan
+        </TextField>
+        <Button
+          type="submit"
+          variant="contained"
+          color="secondary"
+          fullWidth
+          sx={{ py: 1.5, fontSize: "1rem" }}
+        >
+          Generate Diet Plan
         </Button>
-      </Box>
-    </Box>
+      </form>
+
+      <DietResult result={result} />
+    </Box>*/
+
+    <Box sx={{ width: "60%", mx: "auto", mt: 5 }}>
+  <Typography
+    variant="h4"
+    sx={{ fontWeight: "bold", mb: 4, textAlign: "center", color: "#ad1457" }}
+  >
+    🥗 Personalized Diet Planner
+  </Typography>
+
+  <form onSubmit={handleSubmit}>
+    <TextField
+      fullWidth
+      label="Weight (kg)"
+      name="weight"
+      value={form.weight}
+      onChange={handleChange}
+      type="number"
+      sx={{ mb: 3 }}
+      required
+    />
+    <TextField
+      fullWidth
+      label="Height (cm)"
+      name="height"
+      value={form.height}
+      onChange={handleChange}
+      type="number"
+      sx={{ mb: 3 }}
+      required
+    />
+    <TextField
+      fullWidth
+      label="Age"
+      name="age"
+      value={form.age}
+      onChange={handleChange}
+      type="number"
+      sx={{ mb: 3 }}
+      required
+    />
+    <TextField
+      select
+      fullWidth
+      label="Gender"
+      name="gender"
+      value={form.gender}
+      onChange={handleChange}
+      sx={{ mb: 3 }}
+      required
+    >
+      <MenuItem value="male">Male</MenuItem>
+      <MenuItem value="female">Female</MenuItem>
+    </TextField>
+    <TextField
+      select
+      fullWidth
+      label="Activity Level"
+      name="activityLevel"
+      value={form.activityLevel}
+      onChange={handleChange}
+      sx={{ mb: 4 }}
+    >
+      <MenuItem value="sedentary">Sedentary</MenuItem>
+      <MenuItem value="light">Light</MenuItem>
+      <MenuItem value="moderate">Moderate</MenuItem>
+      <MenuItem value="active">Active</MenuItem>
+    </TextField>
+    <Button
+      type="submit"
+      variant="contained"
+      color="secondary"
+      fullWidth
+      sx={{ py: 1.5, fontSize: "1rem" }}
+    >
+      Generate Diet Plan
+    </Button>
+  </form>
+
+  <DietResult result={result} />
+</Box>
+
   );
 }

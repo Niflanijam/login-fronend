@@ -1,38 +1,40 @@
 import React from "react";
-import { Box, Card, CardContent, Typography, Divider, List, ListItem, ListItemText } from "@mui/material";
+import { Box, Typography, Card, CardContent, Divider } from "@mui/material";
 
-export default function DietResult({ calories, meals }) {
-  if (!calories || !meals) return null;
+export default function DietResult({ result }) {
+  if (!result) return null;
 
   return (
     <Box sx={{ mt: 4 }}>
-      <Card sx={{
-        boxShadow: "0px 4px 20px rgba(0,0,0,0.1)",
-        borderRadius: 3,
-        background: "linear-gradient(135deg, #fffde7 0%, #fff8e1 100%)"
-      }}>
-        <CardContent>
-          <Typography variant="h5" sx={{ fontWeight: "bold", color: "#ef6c00", mb: 2, textAlign: "center" }}>
-            🔥 Daily Calorie Needs: {calories} kcal
-          </Typography>
-          <Divider sx={{ mb: 2 }} />
-          <Typography variant="h6" sx={{ fontWeight: "bold", color: "#6a1b9a", mb: 1 }}>
-            🥗 One-Day Meal Plan
-          </Typography>
+      <Typography 
+        variant="h5" 
+        sx={{ fontWeight: "bold", mb: 3, textAlign: "center", color: "#ad1457" }}
+      >
+        🥗 Your Personalized Diet Plan
+      </Typography>
 
-          <List>
-            {meals.map((meal, idx) => (
-              <ListItem key={idx} sx={{ p: 0.5 }}>
-                <ListItemText primary={
-                  <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                    {meal.label} - {meal.calories.toFixed(0)} kcal
-                  </Typography>
-                } />
-              </ListItem>
-            ))}
-          </List>
-        </CardContent>
+      <Card sx={{ mb: 3, p: 2, borderRadius: 3, boxShadow: 3, backgroundColor: "#fce4ec" }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "center" }}>
+          Daily Calories: {result.calories} kcal
+        </Typography>
       </Card>
+
+      {result.mealPlan.map((meal, index) => (
+        <Card key={index} sx={{ mb: 2, borderRadius: 2, boxShadow: 2, backgroundColor: "#fff0f5" }}>
+          <CardContent>
+            <Typography variant="subtitle1" sx={{ fontWeight: "bold", mb: 1, color: "#d81b60" }}>
+              {meal.meal}
+            </Typography>
+            <Typography sx={{ mb: 1 }}>
+              {meal.food}
+            </Typography>
+            <Divider sx={{ my: 1 }} />
+            <Typography variant="body2" color="text.secondary">
+              {meal.calories} kcal
+            </Typography>
+          </CardContent>
+        </Card>
+      ))}
     </Box>
   );
 }
